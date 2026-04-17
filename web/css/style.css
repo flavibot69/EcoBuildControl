@@ -1,0 +1,96 @@
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg: #f3f4f6;
+    --text: #1f2937;
+    --error: #ef4444;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.auth-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.hidden { display: none; }
+
+h2 { text-align: center; color: var(--text); }
+
+.input-group { margin-bottom: 1.5rem; }
+
+label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; }
+
+input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box; 
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover { background-color: var(--primary-hover); }
+
+.error-msg {
+    color: var(--error);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Diseño Responsivo */
+@media (max-width: 480px) {
+    .auth-card { padding: 1.5rem; }
+}
+
+/* Para que el sidebar no flote sobre el texto */
+.admin-layout {
+    display: block; /* Rompemos el flex centrado del login */
+    height: auto;
+    background-color: var(--bg);
+}
+
+.admin-sidebar {
+    background: #1e293b;
+    color: white;
+    padding: 20px;
+    height: 100vh;
+    width: 240px; /* Ancho fijo */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.admin-main {
+    margin-left: 240px; /* Exactamente el ancho del sidebar para que no se traslapen */
+    padding: 40px;
+    min-height: 100vh;
+}
