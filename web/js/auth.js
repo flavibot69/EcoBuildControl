@@ -1,4 +1,26 @@
+
 // 1. SELECCIÓN DE ELEMENTOS (IDs sincronizados con el HTML)
+
+//FIREBASE
+import { db } from "./firebaseConfig.js";
+
+import {
+  getAuth
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const auth = getAuth();
+
+console.log("Firebase inicializado:", auth);
+
+
+// SELECCIÓN DE ELEMENTOS DEL DOM
+
 const loginContainer = document.getElementById('login-form');
 const registerContainer = document.getElementById('register-form');
 const btnGoToRegister = document.getElementById('go-to-register');
@@ -27,46 +49,82 @@ if (btnGoToLogin && loginContainer && registerContainer) {
     });
 }
 
+
 // 3. LÓGICA DE INICIO DE SESIÓN
+
+// LÓGICA DE REGISTRO
+if (formRegister){
+    formRegister.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('reg-email').value;
+        const pass = document.getElementById('reg-password').value;
+        const userRole = document.getElementById('reg-role').value;
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            const user = userCredential.user;
+            
+
+            console.log("USuario creado: ", user.uid);
+            const sessionData = {
+                email: user.email,
+                uid: user.uid,
+                role: userRole
+            }
+            localStorage.setItem('currentUser', JSON.stringify(sessionData));
+
+            alert("Cuenta creada con éxito");
+
+            window.location.href = 'index.html';
+        }catch(error){
+            console.error("Error en registro:", error);
+
+            if (loginError) {
+                loginError.innerText = "No se pudo crear la cuenta";
+            }
+        }
+    });
+}
+
+
+// LÓGICA DE LOGIN --YA AHORA SI CON FIREBASE 
+
 if (formLogin) {
-    formLogin.addEventListener('submit', (e) => {
+    formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('login-email').value;
         const pass = document.getElementById('login-password').value;
 
-        let userRole = '';
-        // Credenciales de prueba
-        if (email === "admin@test.com" && pass === "123456") {
-            userRole = 'admin';
-        } else if (email === "tecnico@test.com" && pass === "123456") {
-            userRole = 'tecnico';
-        }
+        try{
+            const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+            const user = userCredential.user;
 
-        if (userRole) {
-            const sessionData = { email, role: userRole };
+            console.log("El usuario: ", user.email)
+
+            //local storage para roles de mientras
+            const  sessionData = {
+                email: user.email,
+                uid: user.uid,
+                role: user.email.includes("admin") ? "admin" : "tecnico"
+            };
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
-            // Redirección según el rol
-            window.location.href = (userRole === 'admin') ? 'admin-home.html' : 'tech-home.html';
-        } else {
-            if(loginError) loginError.innerText = "Error: Credenciales incorrectas.";
+
+            //redireccion
+            window.location.href = (sessionData.role === 'admin')
+            ? 'admin-home.html'
+            : 'tech-home.html';
+
+        }catch (error){
+            console.error("Error login Firebase:", error);
+            if (loginError) {
+                loginError.innerText = "Email o contraseña incorrectos";
+            }
         }
+
     });
 }
 
-// 4. LÓGICA DE REGISTRO (Simulado)
-if (formRegister) {
-    formRegister.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = document.getElementById('reg-email').value;
-        const role = document.getElementById('reg-role').value;
-
-        alert(`Cuenta creada para: ${email} con rol: ${role}. Ahora puedes iniciar sesión.`);
-        
-        // Volver al login automáticamente
-        registerContainer.classList.add('hidden');
-        loginContainer.classList.remove('hidden');
-    });
-}
 
 // 5. CERRAR SESIÓN
 if (logoutBtn) {
