@@ -1,36 +1,70 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html lang="es">
 <head>
-    <title>Inventario</title>
-    <link rel="stylesheet" href="css/style.css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - EcoBuild</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="inventario">
-    <div class="header">
-        <h1>INVENTARIO</h1>
-    </div>
-    <div class="materials">
-        <table class="table-mats">
-            <thead>
-                <tr>
-                    <td class="td-icon td-header">ICONO</td>
-                    <td class="td-ingredient td-header">INGREDIENTE</td>
-                    <td class="td-stock td-header">CANTIDAD DISPONIBLE</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="td-mat">🧪</td>
-                    <td class="td-mat">Aglutinante</td>
-                    <td class="td-mat ">32</td>
-                </tr>
-                <tr>
-                    <td class="td-mat ">🥥</td>
-                    <td class="td-mat">Fibra de Coco</td>
-                    <td class="td-mat">31</td>
-                </tr>
+<body>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a href="admin-home.html" class="btn btn-outline-dark btn-sm">⬅ Volver</a>
+            <h2 class="fw-bold mb-0">Inventario</h2>
+            <button class="btn btn-eco" data-bs-toggle="modal" data-bs-target="#modalStock">➕ Agregar</button>
+        </div>
 
-            </tbody>
-        </table>
+        <div class="table-responsive shadow-sm rounded-4 overflow-hidden border">
+            <table class="table table-hover mb-0 table-mobile-cards align-middle">
+                <thead style="background-color: var(--eco-dark); color: white;">
+                    <tr>
+                        <th class="p-3">Icono</th>
+                        <th class="p-3">Ingrediente</th>
+                        <th class="p-3">Cantidad</th>
+                        <th class="p-3">Estado</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    <tr>
+                        <td data-label="Icono" class="fs-2 p-3">🧪</td>
+                        <td data-label="Nombre" class="fw-bold p-3">Aglutinante</td>
+                        <td data-label="Stock" class="p-3">32 kg</td>
+                        <td data-label="Estado" class="p-3"><span class="badge bg-success text-white">Óptimo</span></td>
+                    </tr>
+                    <tr>
+                        <td data-label="Icono" class="fs-2 p-3">🥥</td>
+                        <td data-label="Nombre" class="fw-bold p-3">Fibra de Coco</td>
+                        <td data-label="Stock" class="p-3">31 kg</td>
+                        <td data-label="Estado" class="p-3"><span class="badge bg-warning text-dark">Revisar</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <div class="modal fade" id="modalStock" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow" style="background-color: var(--eco-cream);">
+                <div class="modal-header border-0">
+                    <h5 class="fw-bold">Actualizar Insumos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <select class="form-select mb-3 border-0 shadow-sm p-3" style="border-radius:12px;">
+                        <option>🥥 Fibra de Coco</option>
+                        <option>🧪 Aglutinante</option>
+                    </select>
+                    <input type="number" class="form-control border-0 shadow-sm p-3" placeholder="Cantidad a sumar" style="border-radius:12px;">
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-eco w-100">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
 </body>
 </html>

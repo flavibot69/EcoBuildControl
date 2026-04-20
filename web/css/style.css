@@ -1,174 +1,57 @@
+/* PALETA ECOBUILD */
 :root {
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --bg: #f3f4f6;
-    --text: #1f2937;
-    --error: #ef4444;
+    --eco-dark: #3e2723;
+    --eco-medium: #795548;
+    --eco-accent: #a1887f;
+    --eco-beige: #fcfcf1;
+    --eco-cream: #fcf0d7;
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: var(--bg);
+    background-color: var(--eco-beige) !important;
+    color: var(--eco-dark);
+}
+
+/* Tarjetas de Navegación */
+.nav-card {
+    background-color: var(--eco-cream) !important;
+    border: 1px solid var(--eco-accent) !important;
+    border-radius: 1.25rem !important;
+    padding: 2rem 1rem;
+    text-align: center;
+    text-decoration: none !important;
+    color: var(--eco-dark) !important;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    justify-content: center;
+    transition: all 0.3s ease;
+    height: 100%; /* Para que todas midan lo mismo */
 }
 
-.auth-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
+.nav-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(62, 39, 35, 0.1);
+    background-color: white !important;
 }
 
-.auth-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+.nav-card .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
-.hidden { display: none; }
-
-h2 { text-align: center; color: var(--text); }
-
-.input-group { margin-bottom: 1.5rem; }
-
-label { display: block; margin-bottom: 0.5rem; font-size: 0.9rem; }
-
-input, select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    box-sizing: border-box; 
+/* Botón Logout */
+.btn-logout {
+    background-color: #efebe9;
+    color: var(--eco-dark);
+    border: 1px solid var(--eco-accent);
+    padding: 0.5rem 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s;
 }
 
-.btn-primary {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: var(--primary);
+.btn-logout:hover {
+    background-color: #d32f2f;
     color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
 }
-
-.btn-primary:hover { background-color: var(--primary-hover); }
-
-.error-msg {
-    color: var(--error);
-    font-size: 0.85rem;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-/* Diseño Responsivo */
-@media (max-width: 480px) {
-    .auth-card { padding: 1.5rem; }
-}
-
-/* Para que el sidebar no flote sobre el texto */
-.admin-layout {
-    display: block; /* Rompemos el flex centrado del login */
-    height: auto;
-    background-color: var(--bg);
-}
-
-.admin-sidebar {
-    background: #1e293b;
-    color: white;
-    padding: 20px;
-    height: 100vh;
-    width: 240px; /* Ancho fijo */
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.admin-main {
-    margin-left: 240px; /* Exactamente el ancho del sidebar para que no se traslapen */
-    padding: 40px;
-    min-height: 100vh;
-}
-
-
-.inventario {
-    background-color: white;
-    padding: 0;
-    margin: 0;
-    font-family: 'Sans Serif Collection';
-    display: block;
-}
-
-.header {
-    width: auto;
-    margin: 0;
-    padding: 1px;
-    border-bottom: 1px solid #666;
-    box-shadow: 0px 2px 20px #333;
-    margin: 0 auto;
-    background-color: #7a2e00;
-}
-
-   .header h1 {
-        width: fit-content;
-        margin: 0 auto;
-        font-family: 'Sans Serif Collection';
-        color: white;
-        font-size: 3rem;
-        font-weight: bolder;
-    }
-
-.materials {
-    border-radius: 20px;
-    display: flex;
-    margin: 5%;
-    box-shadow: 3px 2px 20px #aaa;
-}
-
-.table-mats {
-    width: 100%;
-    border-spacing: 0;
-}
-
-    .table-mats td {
-        border: 1px solid #eee;
-    }
-
-.td-header {
-    background-color: #7a2e00;
-    color: white;
-    font-weight: bolder;
-    font-size: x-large;
-    width: 40%;
-    text-align: center;
-}
-
-.td-icon.td-header {
-    width: 20%;
-    border-radius: 20px 0 0 0;
-}
-
-.td-ingredient.td-header {
-    width: 40%;
-}
-
-.td-stock.td-header {
-    width: 40%;
-    border-radius: 0 20px 0 0;
-}
-
-.td-mat {
-    font-size: 2rem;
-    text-align: center;
-    font-weight: bold;
-    margin: 0;
-    padding: 0;
-    border-spacing: 0;
-}
-
-

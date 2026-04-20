@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuild - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar shadow-sm" style="background-color: var(--eco-dark);">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white" href="#">EcoBuild <span style="color: var(--eco-accent);">Control</span></a>
+            <button id="logout-btn" class="btn-logout">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <header class="mb-5">
+            <h1 class="fw-bold" style="color: var(--eco-dark);">Panel de Gestión</h1>
+            <p class="lead text-muted">Gestión integral de producción y calidad.</p>
+        </header>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="inventory.html" class="nav-card shadow-sm h-100">
+                    <div class="icon">📦</div>
+                    <h4 class="fw-bold">Inventario</h4>
+                    <p class="small mb-0 text-muted">Control de insumos.</p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="#" class="nav-card shadow-sm h-100">
+                    <div class="icon">🧪</div>
+                    <h4 class="fw-bold">Dosificaciones</h4>
+                    <p class="small mb-0 text-muted">Gestión de fórmulas.</p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="#" class="nav-card shadow-sm h-100">
+                    <div class="icon">📈</div>
+                    <h4 class="fw-bold">Reportes</h4>
+                    <p class="small mb-0 text-muted">Análisis de calidad.</p>
+                </a>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="#" class="nav-card shadow-sm h-100">
+                    <div class="icon">👥</div>
+                    <h4 class="fw-bold">Usuarios</h4>
+                    <p class="small mb-0 text-muted">Control de personal.</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+</body>
+</html>
