@@ -1,4 +1,4 @@
-// SELECCIÓN DE ELEMENTOS DEL DOM
+// 1. SELECCIÓN DE ELEMENTOS (IDs sincronizados con el HTML)
 const loginContainer = document.getElementById('login-form');
 const registerContainer = document.getElementById('register-form');
 const btnGoToRegister = document.getElementById('go-to-register');
@@ -7,30 +7,27 @@ const btnGoToLogin = document.getElementById('go-to-login');
 const formLogin = document.getElementById('form-login');
 const formRegister = document.getElementById('form-register');
 const loginError = document.getElementById('login-error');
-
-// --- NUEVO: Capturar el botón de logout ---
-// Usamos querySelector porque puede haber uno en cada página
 const logoutBtn = document.getElementById('logout-btn');
 
-// NAVEGACIÓN ENTRE FORMULARIOS
-if (btnGoToRegister) {
+// 2. NAVEGACIÓN ENTRE LOGIN Y REGISTRO
+// Verificamos que los elementos existan antes de añadir el evento
+if (btnGoToRegister && loginContainer && registerContainer) {
     btnGoToRegister.addEventListener('click', (e) => {
         e.preventDefault();
-        loginContainer.classList.add('hidden');
+        loginContainer.classList.add('hidden');    
         registerContainer.classList.remove('hidden');
-        if(loginError) loginError.innerText = "";
     });
 }
 
-if (btnGoToLogin) {
+if (btnGoToLogin && loginContainer && registerContainer) {
     btnGoToLogin.addEventListener('click', (e) => {
         e.preventDefault();
-        registerContainer.classList.add('hidden');
+        registerContainer.classList.add('hidden'); 
         loginContainer.classList.remove('hidden');
     });
 }
 
-// LÓGICA DE LOGIN
+// 3. LÓGICA DE INICIO DE SESIÓN
 if (formLogin) {
     formLogin.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -38,6 +35,7 @@ if (formLogin) {
         const pass = document.getElementById('login-password').value;
 
         let userRole = '';
+        // Credenciales de prueba
         if (email === "admin@test.com" && pass === "123456") {
             userRole = 'admin';
         } else if (email === "tecnico@test.com" && pass === "123456") {
@@ -47,40 +45,54 @@ if (formLogin) {
         if (userRole) {
             const sessionData = { email, role: userRole };
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
-
-            // REDIRECCIÓN A LAS NUEVAS PÁGINAS HOME
+            // Redirección según el rol
             window.location.href = (userRole === 'admin') ? 'admin-home.html' : 'tech-home.html';
         } else {
-            if(loginError) loginError.innerText = "Error: Usa admin@test.com o tecnico@test.com";
+            if(loginError) loginError.innerText = "Error: Credenciales incorrectas.";
         }
     });
 }
 
-// --- LÓGICA DE CERRAR SESIÓN (LOGOUT) ---
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('currentUser'); // Borramos la sesión
-        window.location.href = 'index.html';    // Pa' fuera al login
+// 4. LÓGICA DE REGISTRO (Simulado)
+if (formRegister) {
+    formRegister.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('reg-email').value;
+        const role = document.getElementById('reg-role').value;
+
+        alert(`Cuenta creada para: ${email} con rol: ${role}. Ahora puedes iniciar sesión.`);
+        
+        // Volver al login automáticamente
+        registerContainer.classList.add('hidden');
+        loginContainer.classList.remove('hidden');
     });
 }
 
-// INICIALIZACIÓN Y PROTECCIÓN DE RUTAS
-const checkExistingSession = () => {
+// 5. CERRAR SESIÓN
+if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'index.html';
+    });
+}
+
+// 6. PROTECCIÓN DE RUTAS (Evita entrar sin loguearse)
+const checkSession = () => {
     const session = JSON.parse(localStorage.getItem('currentUser'));
     const path = window.location.pathname;
 
-    // Si estamos en el Login pero ya tenemos sesión, saltamos al home
+    // Si estamos en el Login pero ya hay sesión activa
     if (path.endsWith('index.html') || path.endsWith('/')) {
         if (session) {
             window.location.href = (session.role === 'admin') ? 'admin-home.html' : 'tech-home.html';
         }
     } 
-    // Si estamos en un Home pero NO hay sesión, mandamos al Login
-    else if (path.includes('-home.html')) {
+    // Si intentamos entrar a un home sin haber iniciado sesión
+    else if (path.includes('-home.html') || path.includes('inventory.html')) {
         if (!session) {
             window.location.href = 'index.html';
         }
     }
 };
 
-checkExistingSession();
+checkSession();
