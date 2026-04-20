@@ -13,7 +13,12 @@ import {
 import {
   createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-
+//Firestore
+import {collection} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const usersCollection = collection(db, "users");
+import { doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const auth = getAuth();
 
 console.log("Firebase inicializado:", auth);
@@ -71,7 +76,14 @@ if (formRegister){
                 email: user.email,
                 uid: user.uid,
                 role: userRole
-            }
+            };
+
+            //guardamos el rol en la firestore
+            const userDoc = doc(db, "users", user.uid);
+            await setDoc(userDoc, {
+                role: userRole,
+            });
+
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
 
             alert("Cuenta creada con éxito");
@@ -99,15 +111,25 @@ if (formLogin) {
         try{
             const userCredential = await signInWithEmailAndPassword(auth, email, pass);
             const user = userCredential.user;
-
-            console.log("El usuario: ", user.email)
-
-            //local storage para roles de mientras
+            //agarramos el rol de firestore
+            const userDoc = doc(db, "users", userCredential.user.uid);
+            const docSnap = await getDoc(userDoc);
+            
             const  sessionData = {
                 email: user.email,
                 uid: user.uid,
-                role: user.email.includes("admin") ? "admin" : "tecnico"
+                role: ""
             };
+
+            if (docSnap.exists()){
+                sessionData.role = docSnap.data().role
+            }else{
+                sessionData.role = user.email.includes("admin") ? "admin" : "tecnico"
+            }
+            console.log("El usuario: ", user.email)
+
+            //local storage para roles de mientras
+            
             localStorage.setItem('currentUser', JSON.stringify(sessionData));
 
             //redireccion
@@ -137,6 +159,7 @@ if (logoutBtn) {
 // 6. PROTECCIÓN DE RUTAS (Evita entrar sin loguearse)
 const checkSession = () => {
     const session = JSON.parse(localStorage.getItem('currentUser'));
+    console.log("SEsion: ",session);
     const path = window.location.pathname;
 
     // Si estamos en el Login pero ya hay sesión activa
