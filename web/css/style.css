@@ -58,3 +58,15 @@ body {
 .hidden {
     display: none !important;
 }
+
+/* Candado para los contenedores de gráficas */
+.chart-container {
+    position: relative;
+    height: 300px; /* Altura fija para que no crezca la página */
+    width: 100%;
+}
+
+/* Evitar que el body crezca horizontalmente por las animaciones */
+body {
+    overflow-x: hidden;
+}

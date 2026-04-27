@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuild - Nuevo Lote</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="auth-card p-4 shadow-sm">
+                    <h2 class="fw-bold mb-4" style="color: var(--eco-dark);">🏗️ Crear Nuevo Lote</h2>
+                    
+                    <form id="form-lote">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Cantidad de Ladrillos</label>
+                            <input type="number" id="cantidad-ladrillos" class="form-control p-3 border-0 shadow-sm" 
+                                   placeholder="Ej: 100" style="border-radius: 12px;" required>
+                        </div>
+
+                        <div class="p-3 mb-4 rounded-4" style="background-color: rgba(121, 85, 72, 0.1);">
+                            <p class="small fw-bold mb-2">Material necesario:</p>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>🥥 Fibra:</span> <span id="calc-fibra" class="fw-bold">0 kg</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>🧪 Aglutinante:</span> <span id="calc-aglutinante" class="fw-bold">0 kg</span>
+                            </div>
+                        </div>
+
+                        <div id="lote-error" class="text-danger small mb-3 fw-bold"></div>
+
+                        <button type="submit" id="btn-crear-lote" class="btn btn-eco w-100 py-3 fw-bold shadow-sm" style="border-radius: 12px;">
+                            Confirmar y Descontar Stock
+                        </button>
+                        <a href="tech-home.html" class="btn btn-link w-100 text-decoration-none mt-2" style="color: var(--eco-medium);">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/lotes.js"></script>
+</body>
+</html>

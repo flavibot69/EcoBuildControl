@@ -36,6 +36,8 @@ const formRegister = document.getElementById('form-register');
 const loginError = document.getElementById('login-error');
 const logoutBtn = document.getElementById('logout-btn');
 
+
+
 // 2. NAVEGACIÓN ENTRE LOGIN Y REGISTRO
 // Verificamos que los elementos existan antes de añadir el evento
 if (btnGoToRegister && loginContainer && registerContainer) {

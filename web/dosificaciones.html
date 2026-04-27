@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuild - Dosificaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="background-color: #f8f9fa;">
+    <nav class="navbar shadow-sm mb-4" style="background-color: var(--eco-dark);">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white" href="admin-home.html">EcoBuild <span style="color: var(--eco-accent);">Fórmulas</span></a>
+            <a href="admin-home.html" class="btn btn-outline-light btn-sm">Volver</a>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <header class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="fw-bold mb-0" style="color: var(--eco-dark);">Gestión de Mezclas</h2>
+                <p class="text-muted">Configura los kilogramos por unidad producida.</p>
+            </div>
+            <button class="btn btn-eco shadow-sm" data-bs-toggle="modal" data-bs-target="#modalFormula">➕ Nueva Mezcla</button>
+        </header>
+
+        <div class="row" id="formulas-container">
+            </div>
+    </div>
+
+    <div class="modal fade" id="modalFormula" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow">
+                <div class="modal-header border-0">
+                    <h5 class="fw-bold">Ajustar Dosificación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="form-formula">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Nombre de la Mezcla</label>
+                            <input type="text" id="formula-name" class="form-control p-3 border-0 bg-light" placeholder="Ej: Estándar v2" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-bold">Fibra (kg/u)</label>
+                                <input type="number" step="0.01" id="fibra-ratio" class="form-control p-3 border-0 bg-light" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label small fw-bold">Aglutinante (kg/u)</label>
+                                <input type="number" step="0.01" id="aglutinante-ratio" class="form-control p-3 border-0 bg-light" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="submit" class="btn btn-eco w-100 py-3">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/formulas.js"></script>
+</body>
+</html>

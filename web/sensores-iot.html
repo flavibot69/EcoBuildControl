@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuild - Sensores IoT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Candado de altura para evitar que la página crezca y salte */
+        .chart-container {
+            position: relative;
+            height: 300px; 
+            width: 100%;
+        }
+        body { overflow-x: hidden; }
+        .auth-card { min-height: 100%; }
+    </style>
+</head>
+<body>
+    <nav class="navbar shadow-sm mb-4" style="background-color: var(--eco-dark);">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-white" href="tech-home.html">EcoBuild <span style="color: var(--eco-accent);">IoT</span></a>
+            <span class="badge bg-success">📡 En Línea (Simulado)</span>
+        </div>
+    </nav>
+
+    <div class="container py-3">
+        <div class="row g-4">
+            <div class="col-12 col-lg-8">
+                <div class="auth-card p-4 shadow-sm">
+                    <h5 class="fw-bold mb-4" style="color: var(--eco-dark);">🌡️ Monitoreo Ambiental (Arduino)</h5>
+                    <div class="chart-container">
+                        <canvas id="envChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="d-grid gap-3">
+                    <div class="auth-card p-3 shadow-sm text-center">
+                        <small class="text-muted d-block fw-bold">Presión Actual</small>
+                        <h2 class="fw-bold mb-0" id="current-pressure" style="color: var(--eco-dark);">0.0</h2>
+                        <span class="small fw-bold text-secondary">kN (KiloNewtons)</span>
+                    </div>
+                    <div class="auth-card p-3 shadow-sm text-center">
+                        <small class="text-muted d-block fw-bold">Calificación del Lote</small>
+                        <h4 class="fw-bold mb-0" id="batch-status">Analizando...</h4>
+                    </div>
+                    <div class="auth-card p-3 shadow-sm text-center bg-light">
+                        <p class="small mb-0 text-muted">Datos recibidos vía protocolo MQTT/HTTP</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="auth-card p-4 shadow-sm">
+                    <h5 class="fw-bold mb-4" style="color: var(--eco-dark);">🏗️ Curva de Carga / Prensa Hidráulica</h5>
+                    <div class="chart-container">
+                        <canvas id="loadChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="tech-home.html" class="btn btn-link text-decoration-none text-muted">← Volver al Panel</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="js/sensores.js"></script>
+</body>
+</html>

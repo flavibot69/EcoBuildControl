@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuild - Pruebas de Laboratorio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="auth-card p-4 shadow-sm">
+                    <h2 class="fw-bold mb-4" style="color: var(--eco-dark);">🔬 Prueba de Resistencia</h2>
+                    
+                    <form id="form-prueba">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Seleccionar Lote</label>
+                            <select id="lote-selector" class="form-select p-3 border-0 shadow-sm bg-light" style="border-radius: 12px;" required>
+                                <option value="">-- Seleccione un lote --</option>
+                                <option value="LOT-001">Lote #001 (Fibra Coco)</option>
+                                <option value="LOT-002">Lote #002 (Mezcla Estándar)</option>
+                                <option value="LOT-003">Lote #003 (Reforzado)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold small">Resistencia (MPa)</label>
+                            <input type="number" step="0.1" id="mpa-input" class="form-control p-3 border-0 shadow-sm bg-light" 
+                                   placeholder="Ej: 12.5" style="border-radius: 12px;" required>
+                        </div>
+
+                        <div id="resultado-container" class="p-3 mb-4 rounded-4 text-center d-none">
+                            <span id="resultado-label" class="fw-bold fs-5"></span>
+                        </div>
+
+                        <button type="submit" id="btn-guardar-prueba" class="btn btn-eco w-100 py-3 fw-bold shadow-sm" style="border-radius: 12px;">
+                            Registrar y Generar QR
+                        </button>
+                        
+                        <a href="tech-home.html" class="btn btn-link w-100 text-decoration-none mt-2 text-muted small">Volver al Panel</a>
+                    </form>
+
+                    <div id="qr-result-section" class="mt-4 p-4 rounded-4 bg-white border d-none text-center">
+                        <h6 class="fw-bold mb-3" style="color: var(--eco-dark);">Identificador QR Generado</h6>
+                        <div id="qrcode" class="d-flex justify-content-center mb-3"></div>
+                        <p class="small text-muted mb-0" id="qr-text-info"></p>
+                        <hr>
+                        <button onclick="window.print()" class="btn btn-sm btn-outline-secondary">Imprimir Etiqueta</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script type="module" src="js/pruebas.js"></script>
+</body>
+</html>

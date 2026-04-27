@@ -1,68 +1,55 @@
-import { requireLogin } from './session.js';
+// DATOS INICIALES
+let stockData = [
+    { id: 1, nombre: "Fibra de Coco", cantidad: 8, unidad: "kg", icon: "🥥" },
+    { id: 2, nombre: "Aglutinante", cantidad: 25, unidad: "kg", icon: "🧪" }
+];
 
-// Solo permitir acceso a admin o técnico
-requireLogin(['admin', 'tecnico']);
+const tableBody = document.getElementById('inventory-body');
+const formSurtir = document.getElementById('form-surtir');
 
-import { db } from "./firebaseConfig.js";
-import {collection} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-const usersCollection = collection(db, "users");
-import { doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-
-//ELementos DOM
-const cantidadAglutinante = document.getElementById('aglutinante-stock');
-const estadoAglutinante = document.getElementById('aglutinante-state');
-const cantidadFibra = document.getElementById('fibra-stock');
-const estadoFibra = document.getElementById('fibra-state');
-
-// Consultar datos con la bdd
-const consultarBD = async (coleccion, id) => {
-    try {
-        const docRef = doc(db, coleccion, id);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()){
-            return docSnap.data();
-        }else{
-            return null;
-        }
-    } catch(error){
-        console.error("Error al consultar", coleccion, id), error;
-        return null;
-    }
-}
-
-function actualizarEstado(elemento, cantidad){
-    if (cantidad > 32){
-        elemento.innerText = "Óptimo"
-        if (elemento.classList.contains('bg-warning')) elemento.classList.remove('bg-warning');
-        elemento.classList.add('bg-success');
-    }else{
-        elemento.innerText = "Revisar"
-        if (elemento.classList.contains('bg-success')) elemento.classList.remove('bg-success');
-        elemento.classList.add('bg-warning');
-    }
-}
-
-async function refrescarDatos(){
-    let datos = await consultarBD("inventario", "aglutinante");
-    if (datos){
-        cantidadAglutinante.innerText = datos.cantidad + "kg";
-        actualizarEstado(estadoAglutinante, datos.cantidad);
-    }else{
-        cantidadAglutinante.innerText = "-";
-        estadoAglutinante.innerText = "No existe";
+// FUNCIÓN PARA RENDERIZAR LA TABLA (PB-10)
+function renderInventory() {
+    tableBody.innerHTML = '';
+    stockData.forEach(item => {
+        let statusBadge = item.cantidad < 10 
+            ? '<span class="badge bg-warning text-dark">Stock Bajo</span>' 
+            : '<span class="badge bg-success text-white">Disponible</span>';
         
-    }
-    datos = await consultarBD("inventario", "fibra");
-    if (datos){
-        cantidadFibra.innerText = datos.cantidad + "kg";
-        actualizarEstado(estadoFibra, datos.cantidad);
-    }else{
-        cantidadFibra.innerText = "-";
-        estadoFibra.innerText = "No existe";
-    }
+        if(item.cantidad <= 0) statusBadge = '<span class="badge bg-danger text-white">Agotado</span>';
+
+        tableBody.innerHTML += `
+            <tr>
+                <td class="p-3"><strong>${item.icon} ${item.nombre}</strong></td>
+                <td class="p-3 text-center">${item.cantidad} ${item.unidad}</td>
+                <td class="p-3 text-center">${statusBadge}</td>
+                <td class="p-3 text-center">
+                    <button class="btn btn-sm btn-outline-dark opacity-50">Ver Movimientos</button>
+                </td>
+            </tr>
+        `;
+    });
 }
 
-refrescarDatos();
+// LÓGICA PARA SURTIR (PB-11)
+if (formSurtir) {
+    formSurtir.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const tipo = document.getElementById('add-material-type').value;
+        const cantidadASumar = parseFloat(document.getElementById('add-amount').value);
+
+        // Buscar el material y sumar
+        const material = stockData.find(m => m.nombre === tipo);
+        if (material) {
+            material.cantidad += cantidadASumar;
+            renderInventory(); // Refrescar tabla
+            
+            // Cerrar el modal (usando Bootstrap)
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalAdd'));
+            modal.hide();
+            formSurtir.reset();
+        }
+    });
+}
+
+renderInventory();

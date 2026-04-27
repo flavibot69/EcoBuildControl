@@ -3,51 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoBuild - Técnico</title>
+    <title>EcoBuild - Panel Técnico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container py-5">
+    <nav class="navbar shadow-sm mb-4" style="background-color: var(--eco-dark);">
+        <div class="container">
+            <span class="navbar-brand fw-bold text-white">EcoBuild <span style="color: var(--eco-accent);">Operativo</span></span>
+            <button id="logout-btn" class="btn-logout">Finalizar Turno</button>
+        </div>
+    </nav>
+
+    <div class="container py-4">
         <header class="text-center mb-5">
-            <h2 class="fw-bold" style="color: var(--eco-dark);">EcoBuild Operativo 👷‍♂️</h2>
-            <p class="text-muted">Laboratorio de Pruebas</p>
+            <h2 class="fw-bold" style="color: var(--eco-dark);">Panel de Control Técnico 👷‍♂️</h2>
+            <p class="text-muted">Gestión de producción y calidad</p>
         </header>
 
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
                 <div class="d-grid gap-3">
+                    
+                    <a href="nuevo-lote.html" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
+                        <div class="icon me-4 mb-0">🏗️</div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Crear Nuevo Lote</h5>
+                            <p class="small mb-0 text-muted">Registrar mezcla y descontar stock.</p>
+                        </div>
+                    </a>
+
+                    <a href="pruebas-laboratorio.html" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
+                        <div class="icon me-4 mb-0">🔬</div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Pruebas de Calidad</h5>
+                            <p class="small mb-0 text-muted">Registrar resistencia (MPa) y absorción.</p>
+                        </div>
+                    </a>
+
                     <a href="#" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
                         <div class="icon me-4 mb-0">🔍</div>
                         <div>
                             <h5 class="fw-bold mb-1">Escanear Ladrillo</h5>
-                            <p class="small mb-0 text-muted">Identificar por código QR.</p>
+                            <p class="small mb-0 text-muted">Consultar trazabilidad por QR.</p>
                         </div>
                     </a>
 
-                    <a href="#" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
-                        <div class="icon me-4 mb-0">🏗️</div>
-                        <div>
-                            <h5 class="fw-bold mb-1">Nueva Prueba</h5>
-                            <p class="small mb-0 text-muted">Registrar resistencia (MPa).</p>
-                        </div>
-                    </a>
-
-                    <a href="#" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
+                    <a href="sensores-Iot.html" class="nav-card shadow-sm p-4 text-start flex-row align-items-center">
                         <div class="icon me-4 mb-0">🌡️</div>
                         <div>
                             <h5 class="fw-bold mb-1">Sensores IoT</h5>
-                            <p class="small mb-0 text-muted">Humedad y Temperatura.</p>
+                            <p class="small mb-0 text-muted">Humedad y Temperatura ambiental.</p>
                         </div>
                     </a>
+
                 </div>
             </div>
         </div>
-
-        <div class="text-center mt-5">
-            <button id="logout-btn" class="btn-logout">Finalizar Turno</button>
-        </div>
     </div>
+
     <script type="module" src="js/auth.js"></script>
 </body>
 </html>
