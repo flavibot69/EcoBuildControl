@@ -37,14 +37,14 @@
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="#" class="nav-card shadow-sm h-100">
-                    <div class="icon">📈</div>
-                    <h4 class="fw-bold">Reportes</h4>
-                    <p class="small mb-0 text-muted">Análisis de calidad.</p>
-                </a>
-            </div>
+    <div id="btn-descargar-reporte" class="nav-card shadow-sm h-100" style="cursor: pointer;">
+        <div class="icon">📈</div>
+        <h4 class="fw-bold">Reportes</h4>
+        <p class="small mb-0 text-muted">Análisis de calidad (Descargar PDF).</p>
+    </div>
+</div>
             <div class="col-12 col-md-6 col-lg-3">
-                <a href="#" class="nav-card shadow-sm h-100">
+                <a href="usuarios.html" class="nav-card shadow-sm h-100">
                     <div class="icon">👥</div>
                     <h4 class="fw-bold">Usuarios</h4>
                     <p class="small mb-0 text-muted">Control de personal.</p>
@@ -55,27 +55,38 @@
         <hr class="mb-5">
 
         <h3 class="fw-bold mb-4" style="color: var(--eco-dark);">Resumen de Operaciones</h3>
-        <div class="row g-4">
-            <div class="col-12 col-lg-8">
-                <div class="auth-card p-4 shadow-sm border-0 bg-white">
-                    <h5 class="fw-bold mb-4">📊 Ladrillos Producidos (Semana)</h5>
-                    <div style="height: 300px;">
-                        <canvas id="prodChart"></canvas>
-                    </div>
-                </div>
-            </div>
+<div class="row g-4 mb-4">
+    <div class="col-12 col-md-4">
+        <div class="auth-card p-4 shadow-sm border-0 bg-white text-center">
+            <h6 class="text-muted fw-bold">Total de Lotes Registrados</h6>
+            <h2 id="total-lotes" class="fw-bold" style="color: var(--eco-dark);">0</h2>
+        </div>
+    </div>
+</div>
 
-            <div class="col-12 col-lg-4">
-                <div class="auth-card p-4 shadow-sm border-0 bg-white">
-                    <h5 class="fw-bold mb-4">🎯 Efectividad de Lotes</h5>
-                    <div style="height: 300px;">
-                        <canvas id="qualityChart"></canvas>
-                    </div>
-                </div>
+<div class="row g-4">
+    <div class="col-12 col-lg-8">
+        <div class="auth-card p-4 shadow-sm border-0 bg-white">
+            <h5 class="fw-bold mb-4">Ladrillos Producidos (Semana)</h5>
+            <div style="height: 300px;">
+                <canvas id="prodChart"></canvas>
             </div>
         </div>
     </div>
 
+    <div class="col-12 col-lg-4">
+        <div class="auth-card p-4 shadow-sm border-0 bg-white">
+            <h5 class="fw-bold mb-4">Efectividad de Lotes</h5>
+            <div style="height: 300px;">
+                <canvas id="qualityChart"></canvas> 
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="js/auth.js"></script>
     <script type="module" src="js/admin.js"></script>

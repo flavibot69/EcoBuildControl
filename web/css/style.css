@@ -70,3 +70,29 @@ body {
 body {
     overflow-x: hidden;
 }
+@media print {
+    /* Ocultar todo lo que no sea el QR */
+    nav, header, form, button, .btn-link {
+        display: none !important;
+    }
+    
+    body {
+        background-color: white !important;
+    }
+
+    #qr-result-section {
+        display: block !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    #qrcode img {
+        margin: 0 auto;
+    }
+}

@@ -1,81 +1,86 @@
-// SELECCIÓN DE ELEMENTOS
-const mpaInput = document.getElementById('mpa-input');
-const resContainer = document.getElementById('resultado-container');
-const resLabel = document.getElementById('resultado-label');
+import { db } from './firebaseConfig.js'; 
+import { collection, query, where, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const loteSelector = document.getElementById('lote-selector');
 const formPrueba = document.getElementById('form-prueba');
-
+const mpaInput = document.getElementById('mpa-input');
+const absorcionInput = document.getElementById('absorcion-input'); // Asegúrate de que este ID esté en tu HTML
+const resultadoContainer = document.getElementById('resultado-container');
+const resultadoLabel = document.getElementById('resultado-label');
 const qrSection = document.getElementById('qr-result-section');
-const qrContainer = document.getElementById('qrcode');
-const qrTextInfo = document.getElementById('qr-text-info');
+const qrInfo = document.getElementById('qr-text-info');
 
-// UMDRAL DE CALIDAD (PB-25)
-const MIN_MPA = 10.0;
+// 1. CARGAR LOTES PENDIENTES
+const q = query(collection(db, "lotes"), where("estado", "==", "Pendiente"));
 
-// 1. VALIDACIÓN VISUAL EN TIEMPO REAL
-if (mpaInput) {
-    mpaInput.addEventListener('input', () => {
-        const valor = parseFloat(mpaInput.value);
-
-        if (!isNaN(valor)) {
-            resContainer.classList.remove('d-none');
-            
-            if (valor >= MIN_MPA) {
-                resContainer.style.backgroundColor = "#d4edda"; // Verde Eco-Apto
-                resLabel.style.color = "#155724";
-                resLabel.innerText = "✅ LOTE APTO";
-            } else {
-                resContainer.style.backgroundColor = "#f8d7da"; // Rojo Eco-Falla
-                resLabel.style.color = "#721c24";
-                resLabel.innerText = "❌ NO APTO (Baja Resistencia)";
-            }
-        } else {
-            resContainer.classList.add('d-none');
-        }
+onSnapshot(q, (snapshot) => {
+    loteSelector.innerHTML = '<option value="">-- Seleccione un lote --</option>';
+    snapshot.forEach((doc) => {
+        const lote = doc.data();
+        const option = document.createElement('option');
+        option.value = doc.id;
+        option.textContent = `Lote ID: ...${doc.id.slice(-5)} (${lote.cantidad_ladrillos} uds)`;
+        loteSelector.appendChild(option);
     });
-}
+});
 
-// 2. ENVÍO Y GENERACIÓN DE QR (PB-13)
-if (formPrueba) {
-    formPrueba.addEventListener('submit', (e) => {
-        e.preventDefault();
+// 2. LÓGICA DE VALIDACIÓN (PB-25)
+formPrueba.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const loteId = loteSelector.value;
+    const mpa = parseFloat(mpaInput.value);
+    const absorcion = parseFloat(absorcionInput.value);
+    
+    if (!loteId) return alert("Selecciona un lote");
+
+    try {
+        // Criterios de Aceptación (PB-25)
+        const esAptoResistencia = mpa >= 10; 
+        const esAptoAbsorcion = absorcion <= 15;
         
-        const lote = document.getElementById('lote-selector').value;
-        const mpa = mpaInput.value;
-        const esApto = parseFloat(mpa) >= MIN_MPA;
+        const esAptoTotal = esAptoResistencia && esAptoAbsorcion;
+        const nuevoEstado = esAptoTotal ? "Apto ✅" : "Rechazado ❌";
+        const colorClase = esAptoTotal ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger";
 
-        if (!lote) {
-            alert("Por favor selecciona un lote.");
-            return;
-        }
-
-        // Mostrar sección QR y limpiar anterior
-        qrSection.classList.remove('d-none');
-        qrContainer.innerHTML = ""; 
-
-        // Datos que irán dentro del QR
-        const qrData = {
-            id_lote: lote,
-            resistencia: mpa + " MPa",
-            calidad: esApto ? "APTO" : "RECHAZADO",
-            fecha: new Date().toLocaleDateString(),
-            empresa: "EcoBuild Control"
-        };
-
-        // Crear el QR (Librería QRCode.js)
-        new QRCode(qrContainer, {
-            text: JSON.stringify(qrData),
-            width: 160,
-            height: 160,
-            colorDark : "#3e2723", // Café EcoBuild
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
+        // Actualizar en Firebase (PB-19 y PB-20)
+        const loteRef = doc(db, "lotes", loteId);
+        await updateDoc(loteRef, {
+            resistencia_mpa: mpa,
+            absorcion_agua_porcentaje: absorcion,
+            estado: nuevoEstado,
+            fecha_prueba: new Date()
         });
 
-        qrTextInfo.innerText = `Certificado generado para ${lote}`;
-        
-        // Efecto visual: Scroll suave al QR
-        qrSection.scrollIntoView({ behavior: 'smooth' });
+        // Mostrar resultado visual
+        resultadoContainer.className = `p-3 mb-4 rounded-4 text-center ${colorClase}`;
+        resultadoLabel.innerText = `RESULTADO: ${nuevoEstado}`;
+        resultadoContainer.classList.remove('d-none');
 
-        console.log("Prueba registrada localmente:", qrData);
+        // Generar QR (PB-13)
+        generarEtiquetaQR(loteId, mpa, absorcion, nuevoEstado);
+
+    } catch (error) {
+        console.error("Error al registrar prueba:", error);
+        alert("Hubo un error al guardar los resultados.");
+    }
+});
+
+function generarEtiquetaQR(id, mpa, abs, estado) {
+    const qrDiv = document.getElementById('qrcode');
+    qrDiv.innerHTML = ""; 
+
+    const dataString = `ID: ${id}\nResistencia: ${mpa} MPa\nAbsorcion: ${abs}%\nEstado: ${estado}`;
+    
+    new QRCode(qrDiv, {
+        text: dataString,
+        width: 150,
+        height: 150,
+        colorDark : "#2b4233",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
     });
+
+    qrInfo.innerText = `Folio: ${id}`;
+    qrSection.classList.remove('d-none');
 }
